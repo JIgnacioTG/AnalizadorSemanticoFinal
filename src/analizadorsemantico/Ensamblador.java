@@ -21,10 +21,14 @@ public class Ensamblador {
         StringBuilder stb = new StringBuilder();    //Variable que contendrá el código ensamblador
         for (int i = 0; i < codigo.tripleta.numeroIns.size(); i++) {    //Se analiza la tripleta.
             String variable = "";   //Variable auxiliar para el guardado de la variable a trabajar.
-            if (i == codigo.tripleta.posFinalSwitch.peek()) {
-                stb.append(LINEA)   //Se agrega un salto de línea.
-                        .append("SalidaN").append(codigo.tripleta.posFinalSwitch.peek()).append(":").append(LINEA);
-                codigo.tripleta.posFinalSwitch.poll();
+            try {
+                if (i == codigo.tripleta.posFinalSwitch.peek()) {
+                    stb.append(LINEA)   //Se agrega un salto de línea.
+                            .append("SalidaN").append(codigo.tripleta.posFinalSwitch.peek()).append(":").append(LINEA);
+                    codigo.tripleta.posFinalSwitch.poll();
+                }
+            }
+            catch (NullPointerException ex) {
             }
             if (i < codigo.tripleta.numeroIns.size()-1) {
                 if (codigo.tripleta.operador.get(i+1).equalsIgnoreCase("==")) {   //Si la siguiente instrucción es una comparación.
@@ -119,10 +123,14 @@ public class Ensamblador {
                 }
             }
             if (i + 1 == codigo.tripleta.numeroIns.size()) {    //Si estamos en la última línea.
-                if (i + 2 == codigo.tripleta.posFinalSwitch.peek()) {   //Se revisa si el switch termina en la última línea.
-                    stb.append(LINEA)   //Se agrega un salto de línea.
-                            .append("SalidaN").append(codigo.tripleta.posFinalSwitch.peek()).append(":").append(LINEA);  //Se agrega la etiqueta de salida.
-                    codigo.tripleta.posFinalSwitch.poll();  //Se borra la ultima posición del switch.
+                try {
+                    if (i + 2 == codigo.tripleta.posFinalSwitch.peek()) {   //Se revisa si el switch termina en la última línea.
+                        stb.append(LINEA)   //Se agrega un salto de línea.
+                                .append("SalidaN").append(codigo.tripleta.posFinalSwitch.peek()).append(":").append(LINEA);  //Se agrega la etiqueta de salida.
+                        codigo.tripleta.posFinalSwitch.poll();  //Se borra la ultima posición del switch.
+                    }
+                }
+                catch (NullPointerException ex) {
                 }
                 stb.append("\tFIN");    //Se escribe el final.
             }

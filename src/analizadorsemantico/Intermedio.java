@@ -145,7 +145,7 @@ public class Intermedio {
             if(codigo.token.get(i).equalsIgnoreCase("OAS")) {
                 
                 // Se considera si hay un delimitador despúes de su siguiente token
-                if (codigo.token.get(i+2).equalsIgnoreCase("DEL")) {
+                if (codigo.token.get(i+2).equalsIgnoreCase("DEL") || codigo.token.get(i+2).equalsIgnoreCase("COM")) {
                     
                     // De ser así estamos ante una asignación simple y la tripleta.
                     numeroIns.add(numIns);

@@ -1,51 +1,6 @@
 	Dato Objeto	Dato Fuente	Operador
-1	a		2		=	
-2	b		3		=	
-3	T1		2		=	
-4	T2		b		=	
-5	T1		T2		+	
-6	a		T1		=	
-7	T3		a		=	
-8	T4		1		=	
-9	T3		T4		==	
-10	TR1		TRTRUE		12	
-11	TR1		TRFALSE		17	
-12	T5		2		=	
-13	T6		b		=	
-14	T5		T6		+	
-15	a		T5		=	
-16	JUMP				50	
-17	T7		2		=	
-18	T3		T7		==	
-19	TR2		TRTRUE		21	
-20	TR2		TRFALSE		26	
-21	T8		2		=	
-22	T9		b		=	
-23	T8		T9		+	
-24	a		T8		=	
-25	JUMP				50	
-26	T10		3		=	
-27	T3		T10		==	
-28	TR3		TRTRUE		30	
-29	TR3		TRFALSE		50	
-30	T11		b		=	
-31	T12		1.2		=	
-32	T11		T12		==	
-33	TR4		TRTRUE		35	
-34	TR4		TRFALSE		40	
-35	T13		1.2		=	
-36	T14		b		=	
-37	T13		T14		+	
-38	b		T13		=	
-39	JUMP				50	
-40	T15		2		=	
-41	T11		T15		==	
-42	TR5		TRTRUE		44	
-43	TR5		TRFALSE		49	
-44	T16		2		=	
-45	T17		b		=	
-46	T16		T17		+	
-47	b		T16		=	
-48	JUMP				50	
-49	b		3		=	
-50	FIN
+1	a		3		=	
+2	b		2		=	
+3	c		4		=	
+4	d		2.3		=	
+5	FIN
