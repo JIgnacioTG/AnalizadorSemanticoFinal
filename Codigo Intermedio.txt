@@ -1,0 +1,46 @@
+	Dato Origen	Dato Fuente	Operador
+1	a		2		=	
+2	b		3		=	
+3	T1		3		=	
+4	T1		b		+	
+5	a		T1		=	
+6	T2		a		=	
+7	T3		1		=	
+8	T2		T3		==	
+9	TR1		TRUE		11	
+10	TR1		FALSE		15	
+11	T4		1		=	
+12	T4		b		+	
+13	a		T4		=	
+14	JUMP				45	
+15	T5		2		=	
+16	T2		T5		==	
+17	TR2		TRUE		19	
+18	TR2		FALSE		23	
+19	T6		2		=	
+20	T6		b		+	
+21	a		T6		=	
+22	JUMP				45	
+23	T7		3		=	
+24	T2		T7		==	
+25	TR3		TRUE		27	
+26	TR3		FALSE		45	
+27	T8		b		=	
+28	T9		1.2		=	
+29	T8		T9		==	
+30	TR4		TRUE		32	
+31	TR4		FALSE		36	
+32	T10		1.2		=	
+33	T10		b		+	
+34	b		T10		=	
+35	JUMP				45	
+36	T11		2		=	
+37	T8		T11		==	
+38	TR5		TRUE		40	
+39	TR5		FALSE		44	
+40	T12		2		=	
+41	T12		b		+	
+42	b		T12		=	
+43	JUMP				45	
+44	b		3		=	
+45	FIN

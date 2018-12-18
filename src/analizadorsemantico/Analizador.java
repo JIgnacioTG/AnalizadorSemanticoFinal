@@ -20,6 +20,7 @@ public class Analizador {
     
     /**
      * @param texto 
+     * @return  
      */
     public static Codigo busquedaErrores(String texto) {
         
@@ -664,12 +665,6 @@ public class Analizador {
                 asignar(var, stb.toString(), error); //Se realiza la asignación.
             }
         }
-        
-        // Ahora el código se optimiza
-        codigo = Optimizador.optimizarCodigo(codigo);
-        
-        // Se genera la tripleta
-        //generarTriplo();
         
         // Se genera el ensamblador
         //generarEnsamblador();

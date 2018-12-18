@@ -6,6 +6,8 @@
 package analizadorsemantico;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
@@ -20,26 +22,23 @@ public class Tripleta {
     ArrayList<String> objeto;
     ArrayList<String> fuente;
     ArrayList<String> operador;
-    ArrayList<Integer> posOperacion;
-    ArrayList<Integer> posComparacion;
+    Queue<Integer> posFinalSwitch;
     
     public Tripleta() {
         numeroIns = new ArrayList<>();
         objeto = new ArrayList<>();
         fuente = new ArrayList<>();
         operador = new ArrayList<>();
-        posOperacion = new ArrayList<>();
-        posComparacion = new ArrayList<>();
+        posFinalSwitch = new LinkedList<>();
     }
     
     public Tripleta(ArrayList<Integer> numeroIns, ArrayList<String> objeto, ArrayList<String>  fuente, 
-            ArrayList<String> operador, ArrayList<Integer> posOperacion, ArrayList<Integer> posComparacion) {
+            ArrayList<String> operador, Queue<Integer> posFinalSwitch) {
         this.numeroIns = numeroIns;
         this.objeto = objeto;
         this.fuente = fuente;
         this.operador = operador;
-        this.posOperacion = posOperacion;
-        this.posComparacion = posComparacion;
+        this.posFinalSwitch = posFinalSwitch;
     }
     
 }

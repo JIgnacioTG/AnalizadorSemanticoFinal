@@ -25,6 +25,7 @@ public class Codigo {
     int numSwitch;
     String codigo;
     Tripleta tripleta;
+    CPU cpu;
     
     public Codigo (String texto) {
         token = new ArrayList<>();
@@ -36,6 +37,7 @@ public class Codigo {
         varSwitch = new Stack<>();
         tipoSwitch = new Stack<>();
         tripleta = new Tripleta();
+        cpu = new CPU();
         numSwitch = 0;
         codigo = texto;
     }
