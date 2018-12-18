@@ -21,11 +21,12 @@ public class Intermedio {
     public static Codigo generarIntermedio (Codigo codigo) {
         
         // Indica el numero de instruccion.
-        int numeroinstruccion = 1;
+        int numIns = 1;
         
         // Numero de temporal
-        int numerotemporal = 1;
-        int numeroCon = 1;  //Número de condicion para la variable temporal.
+        int numTemporal = 1;
+        int numTemporalAnt = 0;
+        int numCon = 1;  //Número de condicion para la variable temporal.
         
         // Variables que almacenaran la tripleta
         ArrayList<Integer> numeroIns = new ArrayList<>();
@@ -46,13 +47,13 @@ public class Intermedio {
                     
                     
                     // Se guarda en la tripleta la variable a comprobar
-                    numeroIns.add(numeroinstruccion);
-                    objeto.add("T" +numerotemporal);
+                    numeroIns.add(numIns);
+                    objeto.add("T" +numTemporal);
                     fuente.add(codigo.valorToken.get(i+2));
                     operador.add("=");
-                    variableCon.push("T" +numerotemporal);  //Se guarda la variable temporal del switch.
-                    numeroinstruccion++;
-                    numerotemporal++;
+                    variableCon.push("T" +numTemporal);  //Se guarda la variable temporal del switch.
+                    numIns++;
+                    numTemporal++;
                     
                     continue;
                 }
@@ -61,41 +62,41 @@ public class Intermedio {
                     
                     if (variableCon.size() > 0) {    //Si hay al menos una condicional Switch activa.
                         while (operador.indexOf("Reemplazar"+variableCon.size()) != -1) {    //Se va realizar de manera cíclica el reemplazo de número de instrucción mientras exista.
-                            operador.set(operador.indexOf("Reemplazar"+variableCon.size()), numeroinstruccion+""); //Se reemplaza y se indica donde empieza la siguiente instrucción.
+                            operador.set(operador.indexOf("Reemplazar"+variableCon.size()), numIns+""); //Se reemplaza y se indica donde empieza la siguiente instrucción.
                         }
                     }
                     
                     // Se analiza con que se debe comparar
-                    numeroIns.add(numeroinstruccion);
-                    objeto.add("T" +numerotemporal);
+                    numeroIns.add(numIns);
+                    objeto.add("T" +numTemporal);
                     fuente.add(codigo.valorToken.get(i+1));
                     operador.add("=");
-                    numeroinstruccion++;
+                    numIns++;
                     
                     // Se analiza con que se debe comparar
-                    numeroIns.add(numeroinstruccion);
+                    numeroIns.add(numIns);
                     objeto.add(variableCon.lastElement());
-                    fuente.add("T" +numerotemporal);
+                    fuente.add("T" +numTemporal);
                     operador.add("==");
-                    numeroinstruccion++;
+                    numIns++;
                     
                     // Si es verdadero, debe continuar con la siguiente instruccion.
-                    int sigIns = numeroinstruccion + 2;
-                    numeroIns.add(numeroinstruccion);
-                    objeto.add("TR" +numeroCon);
-                    fuente.add("TRUE");
+                    int sigIns = numIns + 2;
+                    numeroIns.add(numIns);
+                    objeto.add("TR" +numCon);
+                    fuente.add("TRTRUE");
                     operador.add(sigIns+"");
-                    numeroinstruccion++;
+                    numIns++;
                     
                     // Si es falso, se debe regresar al anterior do
-                    numeroIns.add(numeroinstruccion);
-                    objeto.add("TR" +numeroCon);
-                    fuente.add("FALSE");
+                    numeroIns.add(numIns);
+                    objeto.add("TR" +numCon);
+                    fuente.add("TRFALSE");
                     operador.add("Reemplazar"+variableCon.size());
                     
-                    numeroinstruccion++;
-                    numerotemporal++;
-                    numeroCon++;
+                    numIns++;
+                    numTemporal++;
+                    numCon++;
                     
                     continue;
                     
@@ -104,17 +105,17 @@ public class Intermedio {
                 else if (codigo.valorToken.get(i).equalsIgnoreCase("default")) {
                     if (variableCon.size() > 0) {    //Si hay al menos una condicional Switch activa.
                         while (operador.indexOf("Reemplazar"+variableCon.size()) != -1) {    //Se va realizar de manera cíclica el reemplazo de número de instrucción mientras exista.
-                            operador.set(operador.indexOf("Reemplazar"+variableCon.size()), numeroinstruccion+""); //Se reemplaza y se indica donde empieza la siguiente instrucción.
+                            operador.set(operador.indexOf("Reemplazar"+variableCon.size()), numIns+""); //Se reemplaza y se indica donde empieza la siguiente instrucción.
                         }
                     }
                 }
                 
                 else if (codigo.valorToken.get(i).equalsIgnoreCase("break")) {
-                    numeroIns.add(numeroinstruccion);
+                    numeroIns.add(numIns);
                     objeto.add("JUMP");
                     fuente.add("");
                     operador.add("break"+variableCon.size());
-                    numeroinstruccion++;
+                    numIns++;
                 }
                 
                 else {
@@ -125,14 +126,14 @@ public class Intermedio {
             
             if (codigo.token.get(i).equalsIgnoreCase("COR2")) { //Si estamos ante el final de una instrucción.
                 if (variableCon.size() > 0) {    //Si hay al menos una condicional Switch activa.
-                    int sigIns = numeroinstruccion; //Variable auxiliar para saber el número de la siguiente instrucción.
+                    int sigIns = numIns; //Variable auxiliar para saber el número de la siguiente instrucción.
                     while (operador.indexOf("Reemplazar"+variableCon.size()) != -1) {    //Se va realizar de manera cíclica el reemplazo de número de instrucción mientras exista.
                         operador.set(operador.indexOf("Reemplazar"+variableCon.size()), sigIns+""); //Se reemplaza y se indica donde empieza la siguiente instrucción.
                     }
                     while (operador.indexOf("break"+variableCon.size()) != -1) {    //Se va realizar de manera cíclica el reemplazo de número de instrucción mientras exista.
                         operador.set(operador.indexOf("break"+variableCon.size()), sigIns+""); //Se reemplaza y se indica donde empieza la siguiente instrucción.
-                        if (!posFinalSwitch.contains(sigIns)) {
-                            posFinalSwitch.offer(sigIns);
+                        if (!posFinalSwitch.contains(sigIns)) { //Se agregan las posiciones de finalización del switch siempre y cuando no contenga la siguiente instrucción.
+                            posFinalSwitch.offer(sigIns);   //Se agrega a la lista FIFO.
                         }
                         
                     }
@@ -147,11 +148,11 @@ public class Intermedio {
                 if (codigo.token.get(i+2).equalsIgnoreCase("DEL")) {
                     
                     // De ser así estamos ante una asignación simple y la tripleta.
-                    numeroIns.add(numeroinstruccion);
+                    numeroIns.add(numIns);
                     objeto.add(codigo.valorToken.get(i-1));
                     fuente.add(codigo.valorToken.get(i+1));
                     operador.add("=");
-                    numeroinstruccion++;
+                    numIns++;
                 }
                 
                 // En este caso, tenemos una probable operación matemática.
@@ -218,24 +219,31 @@ public class Intermedio {
                                     if (tokensParentesis.lastIndexOf("*") != -1) {
 
                                         // Se almacena la penúltima variable en el triplo y se elimina de la lista.
-                                        numeroIns.add(numeroinstruccion);
-                                        objeto.add("T" +numerotemporal);
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporal);
                                         fuente.add(tokensParentesis.remove(tokensParentesis.lastIndexOf("*")-1));
                                         operador.add("=");
-                                        numeroinstruccion++;
+                                        numIns++;
+                                        numTemporalAnt = numTemporal;
+                                        numTemporal++;
 
                                         // En el triplo se almacena la operacion realizada.
-                                        numeroIns.add(numeroinstruccion);
-                                        objeto.add("T" +numerotemporal);
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporal);
                                         fuente.add(tokensParentesis.remove(tokensParentesis.lastIndexOf("*")+1));
+                                        operador.add("=");
+                                        numIns++;
+                                        
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporalAnt);
+                                        fuente.add("T" +numTemporal);
                                         operador.add(tokensParentesis.get(tokensParentesis.lastIndexOf("*")));
-                                        numeroinstruccion++;
 
                                         // Se agrega a la lista el triplo realizado.
-                                        tokensParentesis.set(tokensParentesis.lastIndexOf("*"),"T" +numerotemporal);
+                                        tokensParentesis.set(tokensParentesis.lastIndexOf("*"),"T" +numTemporalAnt);
 
                                         // Se aumenta el contador del triplo
-                                        numerotemporal++;
+                                        numTemporal++;
 
                                         continue;
                                     }
@@ -244,24 +252,32 @@ public class Intermedio {
                                     else if (tokensParentesis.lastIndexOf("/") != -1) {
 
                                         // Se almacena la antepenúltima variable en el triplo y se elimina de la lista.
-                                        numeroIns.add(numeroinstruccion);
-                                        objeto.add("T" +numerotemporal);
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporal);
                                         fuente.add(tokensParentesis.remove(tokensParentesis.lastIndexOf("/")-1));
                                         operador.add("=");
-                                        numeroinstruccion++;
+                                        numIns++;
+                                        numTemporalAnt = numTemporal;
+                                        numTemporal++;
 
                                         // En el triplo se almacena la operacion realizada.
-                                        numeroIns.add(numeroinstruccion);
-                                        objeto.add("T" +numerotemporal);
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporal);
                                         fuente.add(tokensParentesis.remove(tokensParentesis.lastIndexOf("/")+1));
+                                        operador.add("=");
+                                        numIns++;
+                                        
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporalAnt);
+                                        fuente.add("T" +numTemporal);
                                         operador.add(tokensParentesis.get(tokensParentesis.lastIndexOf("/")));
-                                        numeroinstruccion++;
+                                        numIns++;
 
                                         // Se agrega a la lista el triplo realizado.
-                                        tokensParentesis.set(tokensParentesis.lastIndexOf("/"),"T" +numerotemporal);
+                                        tokensParentesis.set(tokensParentesis.lastIndexOf("/"),"T" +numTemporalAnt);
 
                                         // Se aumenta el contador del triplo
-                                        numerotemporal++;
+                                        numTemporal++;
 
                                         continue;
                                     }
@@ -270,24 +286,32 @@ public class Intermedio {
                                     else {
 
                                         // Se almacena la antepenúltima variable en el triplo y se elimina de la lista.
-                                        numeroIns.add(numeroinstruccion);
-                                        objeto.add("T" +numerotemporal);
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporal);
                                         fuente.add(tokensParentesis.remove(tokensParentesis.size()-3));
                                         operador.add("=");
-                                        numeroinstruccion++;
+                                        numTemporalAnt = numTemporal;
+                                        numTemporal++;
+                                        numIns++;
 
                                         // En el triplo se almacena la operacion realizada.
-                                        numeroIns.add(numeroinstruccion);
-                                        objeto.add("T" +numerotemporal);
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporal);
                                         fuente.add(tokensParentesis.remove(tokensParentesis.size()-1));
+                                        operador.add("=");
+                                        numIns++;
+                                        
+                                        numeroIns.add(numIns);
+                                        objeto.add("T" +numTemporalAnt);
+                                        fuente.add("T" +numTemporal);
                                         operador.add(tokensParentesis.remove(tokensParentesis.size()-1));
-                                        numeroinstruccion++;
+                                        numIns++;
 
                                         // Se agrega a la lista el triplo realizado.
-                                        tokensParentesis.add("T" +numerotemporal);
+                                        tokensParentesis.add("T" +numTemporalAnt);
 
                                         // Se aumenta el contador del triplo
-                                        numerotemporal++;
+                                        numTemporal++;
                                     }
                                     
                                 }
@@ -354,24 +378,32 @@ public class Intermedio {
                         else if (tokensOperacion.lastIndexOf("*") != -1) {
                             
                             // Se almacena la antepenúltima variable en el triplo y se elimina de la lista.
-                            numeroIns.add(numeroinstruccion);
-                            objeto.add("T" +numerotemporal);
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporal);
                             fuente.add(tokensOperacion.remove(tokensOperacion.lastIndexOf("*")-1));
                             operador.add("=");
-                            numeroinstruccion++;
+                            numTemporalAnt = numTemporal;
+                            numTemporal++;
+                            numIns++;
 
                             // En el triplo se almacena la operacion realizada.
-                            numeroIns.add(numeroinstruccion);
-                            objeto.add("T" +numerotemporal);
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporal);
                             fuente.add(tokensOperacion.remove(tokensOperacion.lastIndexOf("*")+1));
+                            operador.add("=");
+                            numIns++;
+                            
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporalAnt);
+                            fuente.add("T" +numTemporal);
                             operador.add(tokensOperacion.get(tokensOperacion.lastIndexOf("*")));
-                            numeroinstruccion++;
+                            numIns++;
 
                             // Se agrega a la lista el triplo realizado.
-                            tokensOperacion.set(tokensOperacion.lastIndexOf("*"),"T" +numerotemporal);
+                            tokensOperacion.set(tokensOperacion.lastIndexOf("*"),"T" +numTemporalAnt);
                             
                             // Se aumenta el contador del triplo
-                            numerotemporal++;
+                            numTemporal++;
                             
                             continue;
                         }
@@ -380,24 +412,32 @@ public class Intermedio {
                         else if (tokensOperacion.lastIndexOf("/") != -1) {
                             
                             // Se almacena la antepenúltima variable en el triplo y se elimina de la lista.
-                            numeroIns.add(numeroinstruccion);
-                            objeto.add("T" +numerotemporal);
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporal);
                             fuente.add(tokensOperacion.remove(tokensOperacion.lastIndexOf("/")-1));
                             operador.add("=");
-                            numeroinstruccion++;
+                            numTemporalAnt = numTemporal;
+                            numTemporal++;
+                            numIns++;
 
                             // En el triplo se almacena la operacion realizada.
-                            numeroIns.add(numeroinstruccion);
-                            objeto.add("T" +numerotemporal);
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporal);
                             fuente.add(tokensOperacion.remove(tokensOperacion.lastIndexOf("/")+1));
+                            operador.add("=");
+                            numIns++;
+                            
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporalAnt);
+                            fuente.add("T" +numTemporal);
                             operador.add(tokensOperacion.get(tokensOperacion.lastIndexOf("/")));
-                            numeroinstruccion++;
+                            numIns++;
 
                             // Se agrega a la lista el triplo realizado.
-                            tokensOperacion.set(tokensOperacion.lastIndexOf("/"),"T" +numerotemporal);
+                            tokensOperacion.set(tokensOperacion.lastIndexOf("/"),"T" +numTemporalAnt);
                             
                             // Se aumenta el contador del triplo
-                            numerotemporal++;
+                            numTemporal++;
                             
                             continue;
                         }
@@ -406,41 +446,49 @@ public class Intermedio {
                         else {
                             
                             // Se almacena la antepenúltima variable en el triplo y se elimina de la lista.
-                            numeroIns.add(numeroinstruccion);
-                            objeto.add("T" +numerotemporal);
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporal);
                             fuente.add(tokensOperacion.remove(tokensOperacion.size()-3));
                             operador.add("=");
-                            numeroinstruccion++;
+                            numTemporalAnt = numTemporal;
+                            numTemporal++;
+                            numIns++;
 
                             // En el triplo se almacena la operacion realizada.
-                            numeroIns.add(numeroinstruccion);
-                            objeto.add("T" +numerotemporal);
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporal);
                             fuente.add(tokensOperacion.remove(tokensOperacion.size()-1));
+                            operador.add("=");
+                            numIns++;
+                            
+                            numeroIns.add(numIns);
+                            objeto.add("T" +numTemporalAnt);
+                            fuente.add("T" +numTemporal);
                             operador.add(tokensOperacion.remove(tokensOperacion.size()-1));
-                            numeroinstruccion++;
+                            numIns++;
 
                             // Se agrega a la lista el triplo realizado.
-                            tokensOperacion.add("T" +numerotemporal);
+                            tokensOperacion.add("T" +numTemporalAnt);
                             
                             // Se aumenta el contador del triplo
-                            numerotemporal++;
+                            numTemporal++;
                         }
                         
                     }
                     
                     // El resultado final es almacenado en la variable
-                    numeroIns.add(numeroinstruccion);
+                    numeroIns.add(numIns);
                     objeto.add(variableAsig);
                     fuente.add(tokensOperacion.get(0));
                     operador.add("=");
-                    numeroinstruccion++;
+                    numIns++;
                     
                 }
             }
         }
         
         // Ahora se genera el texto de la tripleta.
-        StringBuilder texto = new StringBuilder("\tDato Origen\tDato Fuente\tOperador");
+        StringBuilder texto = new StringBuilder("\tDato Objeto\tDato Fuente\tOperador");
         
         texto.append(LINEA);
         for (int i = 0; i < numeroIns.size(); i++) {

@@ -180,33 +180,4 @@ public class CPU {
         }
     }
     
-    public String devolverVacio() { //Método para devolver un registro vacío.
-        String registro = "";   //Variable que almacena el registro donde se guardo la variable.
-        if (AH.isEmpty()) { //Primero se averigüa si AH esta vacía.
-            registro = "AH";    //Se devuelve el registro.
-        }
-        else if (AL.isEmpty()) {    //Si no se averigüa si AL esta vacía.
-            registro = "AL";    //Se devuelve el registro.
-        }
-        else if (BH.isEmpty()) {    //Si no se averigüa si BH esta vacía.
-            registro = "BH";    //Se devuelve el registro.
-        }
-        else if (BL.isEmpty()) {    //Si no se averigüa si BL esta vacía.
-            registro = "BL";    //Se devuelve el registro.
-        }
-        else if (CH.isEmpty()) {    //Si no se averigüa si CH esta vacía.
-            registro = "CH";    //Se devuelve el registro.
-        }
-        else if (CL.isEmpty()) {    //Si no se averigüa si CL esta vacía.
-            registro = "CL";    //Se devuelve el registro.
-        }
-        else if (DH.isEmpty()) {    //Si no se averigüa si DH esta vacía.
-            registro = "DH";    //Se devuelve el registro.
-        }
-        else {  // Si no, al ser DL el último registro, se devuelve este registro.
-            registro = "DL";    //Se devuelve el registro.
-        }
-        return registro;
-    }
-    
 }

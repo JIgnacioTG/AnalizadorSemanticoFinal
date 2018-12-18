@@ -1,8 +1,5 @@
 package analizadorsemantico;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -10,10 +7,6 @@ public class Interfaz extends javax.swing.JFrame {
     
     private Codigo codigo;
     private static final String LINEA = System.getProperty("line.separator"); //Variable que genera los saltos de línea detectando el sistema del usuario.
-    
-    private ArrayList<String> token; //En esta lista se almacenan los tokens con su orden.
-    private ArrayList<String> valorToken; //En esta lista se almacenan los valores de los tokens.
-    private int tPr, tIde, tCe, tCf, tOa, tOr, tOb; //Cada variable conserva el número de cierto token.
     
     DefaultTableModel modelo = new DefaultTableModel(); //Se define un nuevo modelo de tabla.
     public Interfaz() {
@@ -169,8 +162,8 @@ public class Interfaz extends javax.swing.JFrame {
         codigo = Analizador.busquedaErrores(Entrada.getText()); //Se buscan posibles errores en el código y se realizan las asignaciones.
         codigo = Optimizador.optimizarCodigo(codigo);   //Se optimiza el código con la instrucción 3.
         codigo = Intermedio.generarIntermedio(codigo);  //Se genera el código intermedio.
+        codigo = Ensamblador.generarObjeto(codigo); //Se genera el código objeto.
         rellenarTablas();
-        //busquedaErrores(Entrada.getText()); //Se buscan errores a partir del codigo escrito.
     }//GEN-LAST:event_EnviarActionPerformed
 
     public void rellenarTablas() {
